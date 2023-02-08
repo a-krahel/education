@@ -1,0 +1,7 @@
+#File
+.env
+
+#Folder
+.idea
+/node_modules
+/dist
