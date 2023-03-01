@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { Client } from 'pg';
 import * as process from 'process';
@@ -7,6 +8,8 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 
 @Injectable()
 export class LoginService {
+  constructor(private jwtService: JwtService) {}
+
   async login(authLoginDto: AuthLoginDto) {
     const client = new Client({
       database: process.env.DB_DATABASE,
@@ -26,10 +29,15 @@ export class LoginService {
         if (err) console.error(err);
         client.end();
         bcrypt.compare(password, res.rows[0].password, (err, result) => {
-          if (err) console.error(err);
-
-          // eslint-disable-next-line no-console
-          if (result) console.log(result);
+          if (err) {
+            console.error(err);
+            throw new UnauthorizedException();
+          }
+          if (result) {
+            const payload = { email };
+            const accessToken = this.jwtService.sign(payload);
+            return { accessToken };
+          }
         });
       },
     );
