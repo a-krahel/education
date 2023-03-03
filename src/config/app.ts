@@ -15,7 +15,7 @@ export default () => ({
     username: env.DB_USER,
   },
   jwt: {
-    secret: 'topSecret51',
+    secret: env.JWT_SECRET,
     signOptions: {
       expiresIn: env.JWT_LIFETIME,
     },
