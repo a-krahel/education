@@ -57,10 +57,12 @@ export class UsersService {
       password,
       parseInt(process.env.SALT),
     );
+    const confirmationCode = await bcrypt.hash(email, 1);
+    const expirationDate = Date.now() + parseInt(process.env.JWT_LIFETIME);
 
     client.query(
-      `INSERT INTO users (email, password) VALUES ($1, $2)`,
-      [email, hashPassword],
+      `INSERT INTO users (email, password, confirmationCode, expirationDate) VALUES ($1, $2, $3, $4)`,
+      [email, hashPassword, confirmationCode, expirationDate],
       (err) => {
         if (err) console.error(err);
         client.end();
