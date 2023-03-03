@@ -29,13 +29,18 @@ export class LoginService {
         if (err) console.error(err);
         client.end();
         bcrypt.compare(password, res.rows[0].password, (err, result) => {
-          if (err) {
-            console.error(err);
-            throw new UnauthorizedException();
-          }
+          if (err) console.error(err);
+
+          if (!result) throw new UnauthorizedException();
+
           if (result) {
             const payload = { email };
-            const accessToken = this.jwtService.sign(payload);
+            const accessToken = this.jwtService.sign(payload, {
+              secret: 'secret',
+            });
+            // eslint-disable-next-line no-console
+            console.log(accessToken);
+
             return { accessToken };
           }
         });
