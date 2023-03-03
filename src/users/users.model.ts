@@ -1,4 +1,3 @@
-import { DataTypes } from 'sequelize';
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
 enum UserRole {
@@ -9,10 +8,10 @@ enum UserRole {
 @Table
 export class Users extends Model {
   @Column({ autoIncrement: true, primaryKey: true })
-  id: DataTypes.IntegerDataType;
+  id: number;
 
   @Column({ allowNull: false, unique: true })
-  email: DataTypes.StringDataType;
+  email: string;
 
   @Column({ allowNull: false })
   password: string;
@@ -25,17 +24,17 @@ export class Users extends Model {
   role: UserRole;
 
   @Column({ allowNull: false, defaultValue: Date.now() })
-  lastLogin: DataTypes.DateDataType;
+  lastLogin: Date;
 
   @Column({ allowNull: false, defaultValue: Date.now() })
-  created: DataTypes.DateDataType;
+  created: Date;
 
   @Column({ allowNull: false, defaultValue: false })
-  isActive: DataTypes.BlobDataType;
+  isActive: boolean;
 
   @Column
-  confirmationCode: DataTypes.StringDataType;
+  confirmationCode: string;
 
   @Column
-  expirationDate: DataTypes.StringDataType;
+  expirationDate: string;
 }
