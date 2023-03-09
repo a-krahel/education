@@ -6,6 +6,12 @@ const env = process.env;
 
 export default () => ({
   database: {
+    connectionPool: {
+      acquire: 30000,
+      idle: 10000,
+      max: 5,
+      min: 0,
+    },
     database: env.DB_DATABASE,
     dialect: env.DB_DIALECT,
     host: env.DB_HOST,

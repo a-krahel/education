@@ -1,12 +1,23 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
 import { Client } from 'pg';
 import * as process from 'process';
 
 import { CreateUserDto } from './dto/create-user.dto';
+import { Users } from './users.model';
 
 @Injectable()
 export class UsersService {
+  /*constructor(
+    @InjectModel(Users)
+    private usersModel: typeof Users,
+  ) {}*/
+
+  async findAll(): Promise<Users[]> {
+    return /*this.usersModel.findAll()*/;
+  }
+
   async getUsers() {
     const client = new Client({
       database: process.env.DB_DATABASE,

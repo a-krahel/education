@@ -9,7 +9,8 @@ export class UsersController {
 
   @Get('')
   getUsers(): any {
-    return this.userService.getUsers();
+    return this.userService.findAll();
+    // return this.userService.getUsers();
   }
 
   @Get('/:id')
